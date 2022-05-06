@@ -28,6 +28,18 @@ func NewUserWithID(id uuid.UUID, name Name, birthday Birthday) User {
 	}
 }
 
+func (u User) ID() uuid.UUID {
+	return u.id
+}
+
+func (u User) Name() Name {
+	return u.name
+}
+
+func (u User) Birthday() Birthday {
+	return u.birthday
+}
+
 type UserList []User
 
 func NewUserList(users ...User) UserList {

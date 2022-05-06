@@ -35,7 +35,6 @@ func TestNewName(t *testing.T) {
 				first: "Kotaro",
 				last:  "",
 			},
-			want:    Name{},
 			wantErr: true,
 		},
 		{
@@ -44,7 +43,6 @@ func TestNewName(t *testing.T) {
 				first: "",
 				last:  "Abe",
 			},
-			want:    Name{},
 			wantErr: true,
 		},
 	}
@@ -125,7 +123,6 @@ func TestNewBirthday(t *testing.T) {
 				month: 12,
 				day:   31,
 			},
-			want:    Birthday{},
 			wantErr: true,
 		},
 		{
@@ -135,7 +132,6 @@ func TestNewBirthday(t *testing.T) {
 				month: 13,
 				day:   31,
 			},
-			want:    Birthday{},
 			wantErr: true,
 		},
 		{
@@ -145,7 +141,6 @@ func TestNewBirthday(t *testing.T) {
 				month: 12,
 				day:   32,
 			},
-			want:    Birthday{},
 			wantErr: true,
 		},
 	}
