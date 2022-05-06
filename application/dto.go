@@ -24,7 +24,7 @@ type UserAddRequest struct {
 	Birthday  string `json:"birthday"`
 }
 
-func (r UserAddRequest) User() (model.User, error) {
+func (r UserAddRequest) NewUser() (model.User, error) {
 	name, err := model.NewName(r.FirstName, r.LastName)
 	if err != nil {
 		return model.User{}, err
