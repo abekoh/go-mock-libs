@@ -34,6 +34,9 @@ func (r UserAddRequest) NewUser() (model.User, error) {
 		return model.User{}, err
 	}
 	birthday, err := model.NewBirthday(year, month, day)
+	if err != nil {
+		return model.User{}, err
+	}
 	return model.NewUser(name, birthday), nil
 }
 
