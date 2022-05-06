@@ -6,16 +6,16 @@ import (
 	"time"
 )
 
-type UserName struct {
+type Name struct {
 	first string
 	last  string
 }
 
-func NewName(first, last string) (UserName, error) {
+func NewName(first, last string) (Name, error) {
 	if len(first) == 0 || len(last) == 0 {
-		return UserName{}, errors.New("invalid name")
+		return Name{}, errors.New("invalid name")
 	}
-	return UserName{first, last}, nil
+	return Name{first, last}, nil
 }
 
 type Birthday struct {

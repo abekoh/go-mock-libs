@@ -6,6 +6,62 @@ import (
 	"time"
 )
 
+func TestNewName(t *testing.T) {
+	type args struct {
+		first string
+		last  string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    Name
+		wantErr bool
+	}{
+		{
+			name: "valid 1",
+			args: args{
+				first: "Kotaro",
+				last:  "Abe",
+			},
+			want: Name{
+				first: "Kotaro",
+				last:  "Abe",
+			},
+			wantErr: false,
+		},
+		{
+			name: "invalid 1",
+			args: args{
+				first: "Kotaro",
+				last:  "",
+			},
+			want:    Name{},
+			wantErr: true,
+		},
+		{
+			name: "invalid 2",
+			args: args{
+				first: "",
+				last:  "Abe",
+			},
+			want:    Name{},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := NewName(tt.args.first, tt.args.last)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewName() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewName() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestNewBirthday(t *testing.T) {
 	type args struct {
 		year  int
@@ -70,62 +126,6 @@ func TestNewBirthday(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewBirthday() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestNewName(t *testing.T) {
-	type args struct {
-		first string
-		last  string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    UserName
-		wantErr bool
-	}{
-		{
-			name: "valid 1",
-			args: args{
-				first: "Kotaro",
-				last:  "Abe",
-			},
-			want: UserName{
-				first: "Kotaro",
-				last:  "Abe",
-			},
-			wantErr: false,
-		},
-		{
-			name: "invalid 1",
-			args: args{
-				first: "Kotaro",
-				last:  "",
-			},
-			want:    UserName{},
-			wantErr: true,
-		},
-		{
-			name: "invalid 2",
-			args: args{
-				first: "",
-				last:  "Abe",
-			},
-			want:    UserName{},
-			wantErr: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewName(tt.args.first, tt.args.last)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("NewName() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewName() = %v, want %v", got, tt.want)
 			}
 		})
 	}
