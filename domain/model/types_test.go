@@ -62,6 +62,38 @@ func TestNewName(t *testing.T) {
 	}
 }
 
+func TestName_FullName(t *testing.T) {
+	type fields struct {
+		first string
+		last  string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		{
+			name: "check mapping",
+			fields: fields{
+				first: "Kotaro",
+				last:  "Abe",
+			},
+			want: "Kotaro Abe",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			n := Name{
+				first: tt.fields.first,
+				last:  tt.fields.last,
+			}
+			if got := n.FullName(); got != tt.want {
+				t.Errorf("Name.FullName() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestNewBirthday(t *testing.T) {
 	type args struct {
 		year  int

@@ -18,6 +18,14 @@ func NewName(first, last string) (Name, error) {
 	return Name{first, last}, nil
 }
 
+func (n Name) FullName() string {
+	return fmt.Sprintf("%s %s", n.first, n.last)
+}
+
+func (n Name) String() string {
+	return n.FullName()
+}
+
 type Birthday struct {
 	birthdayTime time.Time
 }
@@ -32,4 +40,16 @@ func NewBirthday(year, month, day int) (Birthday, error) {
 	}
 	fmt.Println(t.Year())
 	return Birthday{birthdayTime: t}, nil
+}
+
+func (b Birthday) Year() int {
+	return b.birthdayTime.Year()
+}
+
+func (b Birthday) Month() int {
+	return int(b.birthdayTime.Month())
+}
+
+func (b Birthday) Day() int {
+	return b.birthdayTime.Day()
 }
