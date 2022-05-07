@@ -37,8 +37,13 @@ func (s UserExamService) AddUser(ctx context.Context, req UserAddRequest) error 
 	if err != nil {
 		return err
 	}
-	if err := s.userRepository.Save(ctx, newUser); err != nil {
+	return s.userRepository.Save(ctx, newUser)
+}
+
+func (s UserExamService) AddExam(ctx context.Context, req ExamAddRequest) error {
+	newExam, err := req.NewExam()
+	if err != nil {
 		return err
 	}
-	return nil
+	return s.examRepository.Save(ctx, newExam)
 }
