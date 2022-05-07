@@ -10,6 +10,10 @@ type UserAppService struct {
 	userRepository model.UserRepository
 }
 
+func NewUserAppService(userRepository model.UserRepository) *UserAppService {
+	return &UserAppService{userRepository: userRepository}
+}
+
 func (s UserAppService) Get(ctx context.Context, req UserGetRequest) (UserResponse, error) {
 	id, err := req.UUID()
 	if err != nil {
