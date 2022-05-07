@@ -12,11 +12,11 @@ type Examination struct {
 	examDate types.Birthday
 }
 
-func NewExamination(userId uuid.UUID, examType ExaminationType, examDate model.Birthday) Examination {
+func NewExamination(userId uuid.UUID, examType ExaminationType, examDate types.Birthday) Examination {
 	return NewExaminationWithID(uuid.New(), userId, examType, examDate)
 }
 
-func NewExaminationWithID(id, userId uuid.UUID, examType ExaminationType, examDate model.Birthday) Examination {
+func NewExaminationWithID(id, userId uuid.UUID, examType ExaminationType, examDate types.Birthday) Examination {
 	return Examination{
 		id:       id,
 		userId:   userId,

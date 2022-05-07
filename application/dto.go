@@ -88,6 +88,6 @@ func birthdayInts(s string) (int, int, int, error) {
 	return year, month, day, nil
 }
 
-func birthdayString(b user.Birthday) string {
+func birthdayString(b types.Birthday) string {
 	return fmt.Sprintf("%04d/%02d/%02d", b.Year(), b.Month(), b.Day())
 }

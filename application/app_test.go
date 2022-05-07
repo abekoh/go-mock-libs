@@ -4,8 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/abekoh/go-mock-libs/domain/model"
-	mock "github.com/abekoh/go-mock-libs/gomock/model"
+	"github.com/abekoh/go-mock-libs/domain/model/user"
+	"github.com/abekoh/go-mock-libs/domain/types"
+	userMock "github.com/abekoh/go-mock-libs/gomock/domain/model/user"
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -18,8 +19,8 @@ func TestUserAppService_Get(t *testing.T) {
 
 		id := uuid.New()
 
-		repo := mock.NewMockUserRepository(ctrl)
-		repo.EXPECT().Get(gomock.Any(), id).Return(model.User{}, nil)
+		repo := userMock.NewMockUserRepository(ctrl)
+		repo.EXPECT().Get(gomock.Any(), id).Return(user.User{}, nil)
 
 		target := NewUserAppService(repo)
 		target.Get(context.Background(), UserGetRequest{ID: id.String()})
@@ -31,11 +32,11 @@ func TestUserAppService_Get(t *testing.T) {
 
 		id := uuid.New()
 
-		name, _ := model.NewName("Kotaro", "Abe")
-		birthday, _ := model.NewBirthday(1990, 12, 31)
-		user := model.NewUserWithID(id, name, birthday)
+		name, _ := user.NewName("Kotaro", "Abe")
+		birthday, _ := types.NewBirthday(1990, 12, 31)
+		user := user.NewUserWithID(id, name, birthday)
 
-		repo := mock.NewMockUserRepository(ctrl)
+		repo := userMock.NewMockUserRepository(ctrl)
 		repo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(user, nil)
 
 		target := NewUserAppService(repo)

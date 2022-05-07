@@ -1,4 +1,4 @@
-//go:generate mockgen -source=$GOFILE -package=$GOPACKAGE -destination=../../gomock/$GOPACKAGE/$GOFILE
+//go:generate mockgen -source=$GOFILE -package=$GOPACKAGE -destination=../../../gomock/domain/model/$GOPACKAGE/$GOFILE
 package user
 
 import (
