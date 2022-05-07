@@ -44,9 +44,7 @@ func TestUserExamAppService_Get_Moq(t *testing.T) {
 	t.Run("指定したIDで試験取得が実行される", func(t *testing.T) {
 		userRepo, examRepo := presetMocks()
 		examRepo.GetAllFunc = func(ctx context.Context, id uuid.UUID) (examination.ExaminationList, error) {
-			if id != usrID {
-				t.Errorf("want = %v, got = %v", usrID, id)
-			}
+			assert.Equal(t, usrID, id)
 			return exams, nil
 		}
 
