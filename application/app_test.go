@@ -23,7 +23,7 @@ func TestUserAppService_Get(t *testing.T) {
 		repo.EXPECT().Get(gomock.Any(), id).Return(user.User{}, nil)
 
 		target := NewUserExamService(repo)
-		target.Get(context.Background(), UserGetRequest{ID: id.String()})
+		target.Get(context.Background(), UserExamGetRequest{ID: id.String()})
 	})
 
 	t.Run("レスポンスが正しくマッピングされている", func(t *testing.T) {
@@ -40,9 +40,9 @@ func TestUserAppService_Get(t *testing.T) {
 		repo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(user, nil)
 
 		target := NewUserExamService(repo)
-		res, err := target.Get(context.Background(), UserGetRequest{ID: id.String()})
+		res, err := target.Get(context.Background(), UserExamGetRequest{ID: id.String()})
 
-		assert.Equal(t, UserResponse{
+		assert.Equal(t, UserExamResponse{
 			ID:       id.String(),
 			FullName: "Kotaro Abe",
 			Birthday: "1990/12/31",

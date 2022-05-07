@@ -11,11 +11,11 @@ import (
 	"github.com/google/uuid"
 )
 
-type UserGetRequest struct {
+type UserExamGetRequest struct {
 	ID string `json:"id"`
 }
 
-func (r UserGetRequest) UUID() (uuid.UUID, error) {
+func (r UserExamGetRequest) UUID() (uuid.UUID, error) {
 	return uuid.Parse(r.ID)
 }
 
@@ -30,42 +30,42 @@ func (r UserAddRequest) NewUser() (user.User, error) {
 	if err != nil {
 		return user.User{}, err
 	}
-	year, month, day, err := birthdayInts(r.Birthday)
+	year, month, day, err := dateInts(r.Birthday)
 	if err != nil {
 		return user.User{}, err
 	}
-	birthday, err := types.NewDate(year, month, day)
+	birthday, err := types.NewBirthday(year, month, day)
 	if err != nil {
 		return user.User{}, err
 	}
 	return user.NewUser(name, birthday), nil
 }
 
-type UserResponse struct {
+type UserExamResponse struct {
 	ID       string `json:"id"`
 	FullName string `json:"full_name"`
 	Birthday string `json:"birthday"`
 }
 
-func NewUserResponse(user user.User) UserResponse {
-	return UserResponse{
+func NewUserResponse(user user.User) UserExamResponse {
+	return UserExamResponse{
 		ID:       user.ID().String(),
 		FullName: user.Name().FullName(),
-		Birthday: birthdayString(user.Birthday()),
+		Birthday: dateString(user.Birthday()),
 	}
 }
 
-type UserListResponse []UserResponse
+type UserExamListResponse []UserExamResponse
 
-func NewUserListResponse(users user.UserList) UserListResponse {
-	resp := make(UserListResponse, 0, len(users))
+func NewUserExamListResponse(users user.UserList) UserExamListResponse {
+	resp := make(UserExamListResponse, 0, len(users))
 	for _, u := range users {
 		resp = append(resp, NewUserResponse(u))
 	}
 	return resp
 }
 
-func birthdayInts(s string) (int, int, int, error) {
+func dateInts(s string) (int, int, int, error) {
 	invalidErr := func() (int, int, int, error) {
 		return 0, 0, 0, errors.New("invalid birthday")
 	}
@@ -88,6 +88,6 @@ func birthdayInts(s string) (int, int, int, error) {
 	return year, month, day, nil
 }
 
-func birthdayString(b types.Date) string {
+func dateString(b types.Birthday) string {
 	return fmt.Sprintf("%04d/%02d/%02d", b.Year(), b.Month(), b.Day())
 }
