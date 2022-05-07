@@ -6,7 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/abekoh/go-mock-libs/domain/model"
+	"github.com/abekoh/go-mock-libs/domain/model/user"
+	"github.com/abekoh/go-mock-libs/domain/types"
 	"github.com/google/uuid"
 )
 
@@ -24,20 +25,20 @@ type UserAddRequest struct {
 	Birthday  string `json:"birthday"`
 }
 
-func (r UserAddRequest) NewUser() (model.User, error) {
-	name, err := model.NewName(r.FirstName, r.LastName)
+func (r UserAddRequest) NewUser() (user.User, error) {
+	name, err := user.NewName(r.FirstName, r.LastName)
 	if err != nil {
-		return model.User{}, err
+		return user.User{}, err
 	}
 	year, month, day, err := birthdayInts(r.Birthday)
 	if err != nil {
-		return model.User{}, err
+		return user.User{}, err
 	}
-	birthday, err := model.NewBirthday(year, month, day)
+	birthday, err := types.NewBirthday(year, month, day)
 	if err != nil {
-		return model.User{}, err
+		return user.User{}, err
 	}
-	return model.NewUser(name, birthday), nil
+	return user.NewUser(name, birthday), nil
 }
 
 type UserResponse struct {
@@ -46,7 +47,7 @@ type UserResponse struct {
 	Birthday string `json:"birthday"`
 }
 
-func NewUserResponse(user model.User) UserResponse {
+func NewUserResponse(user user.User) UserResponse {
 	return UserResponse{
 		ID:       user.ID().String(),
 		FullName: user.Name().FullName(),
@@ -56,7 +57,7 @@ func NewUserResponse(user model.User) UserResponse {
 
 type UserListResponse []UserResponse
 
-func NewUserListResponse(users model.UserList) UserListResponse {
+func NewUserListResponse(users user.UserList) UserListResponse {
 	resp := make(UserListResponse, 0, len(users))
 	for _, u := range users {
 		resp = append(resp, NewUserResponse(u))
@@ -87,6 +88,6 @@ func birthdayInts(s string) (int, int, int, error) {
 	return year, month, day, nil
 }
 
-func birthdayString(b model.Birthday) string {
+func birthdayString(b user.Birthday) string {
 	return fmt.Sprintf("%04d/%02d/%02d", b.Year(), b.Month(), b.Day())
 }

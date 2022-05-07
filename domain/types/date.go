@@ -1,30 +1,10 @@
-package model
+package types
 
 import (
 	"errors"
 	"fmt"
 	"time"
 )
-
-type Name struct {
-	first string
-	last  string
-}
-
-func NewName(first, last string) (Name, error) {
-	if len(first) == 0 || len(last) == 0 {
-		return Name{}, errors.New("invalid name")
-	}
-	return Name{first, last}, nil
-}
-
-func (n Name) FullName() string {
-	return fmt.Sprintf("%s %s", n.first, n.last)
-}
-
-func (n Name) String() string {
-	return n.FullName()
-}
 
 type Birthday struct {
 	birthdayTime time.Time
@@ -52,10 +32,4 @@ func (b Birthday) Month() int {
 
 func (b Birthday) Day() int {
 	return b.birthdayTime.Day()
-}
-
-type Point int
-
-func NewPoint() Point {
-	return Point(0)
 }

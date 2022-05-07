@@ -3,14 +3,14 @@ package application
 import (
 	"context"
 
-	"github.com/abekoh/go-mock-libs/domain/model"
+	"github.com/abekoh/go-mock-libs/domain/model/user"
 )
 
 type UserAppService struct {
-	userRepository model.UserRepository
+	userRepository user.UserRepository
 }
 
-func NewUserAppService(userRepository model.UserRepository) *UserAppService {
+func NewUserAppService(userRepository user.UserRepository) *UserAppService {
 	return &UserAppService{userRepository: userRepository}
 }
 

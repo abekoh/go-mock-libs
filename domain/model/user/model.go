@@ -1,19 +1,42 @@
 //go:generate mockgen -source=$GOFILE -package=$GOPACKAGE -destination=../../gomock/$GOPACKAGE/$GOFILE
-package model
+package user
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
+	"github.com/abekoh/go-mock-libs/domain/types"
 	"github.com/google/uuid"
 )
+
+type Name struct {
+	first string
+	last  string
+}
+
+func NewName(first, last string) (Name, error) {
+	if len(first) == 0 || len(last) == 0 {
+		return Name{}, errors.New("invalid name")
+	}
+	return Name{first, last}, nil
+}
+
+func (n Name) FullName() string {
+	return fmt.Sprintf("%s %s", n.first, n.last)
+}
+
+func (n Name) String() string {
+	return n.FullName()
+}
 
 type User struct {
 	id       uuid.UUID
 	name     Name
-	birthday Birthday
+	birthday types.Birthday
 }
 
-func NewUser(name Name, birthday Birthday) User {
+func NewUser(name Name, birthday types.Birthday) User {
 	return User{
 		id:       uuid.New(),
 		name:     name,
@@ -21,7 +44,7 @@ func NewUser(name Name, birthday Birthday) User {
 	}
 }
 
-func NewUserWithID(id uuid.UUID, name Name, birthday Birthday) User {
+func NewUserWithID(id uuid.UUID, name Name, birthday types.Birthday) User {
 	return User{
 		id:       id,
 		name:     name,
@@ -37,7 +60,7 @@ func (u User) Name() Name {
 	return u.name
 }
 
-func (u User) Birthday() Birthday {
+func (u User) Birthday() types.Birthday {
 	return u.birthday
 }
 
