@@ -61,9 +61,3 @@ func (u User) Name() Name {
 func (u User) Birthday() types.Date {
 	return u.birthday
 }
-
-type UserList []User
-
-func NewUserList(users ...User) UserList {
-	return UserList(users)
-}

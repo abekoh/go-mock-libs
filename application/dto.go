@@ -55,16 +55,6 @@ func NewUserExamResponse(user user.User) UserExamResponse {
 	}
 }
 
-type UserExamListResponse []UserExamResponse
-
-func NewUserExamListResponse(users user.UserList) UserExamListResponse {
-	resp := make(UserExamListResponse, 0, len(users))
-	for _, u := range users {
-		resp = append(resp, NewUserExamResponse(u))
-	}
-	return resp
-}
-
 func dateInts(s string) (int, int, int, error) {
 	invalidErr := func() (int, int, int, error) {
 		return 0, 0, 0, errors.New("invalid birthday")

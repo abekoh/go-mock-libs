@@ -28,14 +28,6 @@ func (s UserExamService) Get(ctx context.Context, req UserExamGetRequest) (UserE
 	return NewUserExamResponse(user), nil
 }
 
-func (s UserExamService) GetAll(ctx context.Context) (UserExamListResponse, error) {
-	users, err := s.userRepository.GetAll(ctx)
-	if err != nil {
-		return UserExamListResponse{}, err
-	}
-	return NewUserExamListResponse(users), nil
-}
-
 func (s UserExamService) AddUser(ctx context.Context, req UserAddRequest) (UserExamResponse, error) {
 	newUser, err := req.NewUser()
 	if err != nil {
