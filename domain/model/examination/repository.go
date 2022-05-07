@@ -1,4 +1,5 @@
 //go:generate mockgen -source=$GOFILE -package=$GOPACKAGE -destination=../../../gomock/domain/model/$GOPACKAGE/$GOFILE
+//go:generate moq -out=../../../moq/domain/model/$GOPACKAGE/$GOFILE -pkg=$GOPACKAGE -stub . Repository
 package examination
 
 import (
