@@ -34,7 +34,7 @@ func (r UserAddRequest) NewUser() (user.User, error) {
 	if err != nil {
 		return user.User{}, err
 	}
-	birthday, err := types.NewBirthday(year, month, day)
+	birthday, err := types.NewDate(year, month, day)
 	if err != nil {
 		return user.User{}, err
 	}
@@ -88,6 +88,6 @@ func dateInts(s string) (int, int, int, error) {
 	return year, month, day, nil
 }
 
-func dateString(b types.Birthday) string {
+func dateString(b types.Date) string {
 	return fmt.Sprintf("%04d/%02d/%02d", b.Year(), b.Month(), b.Day())
 }

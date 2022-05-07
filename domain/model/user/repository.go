@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type UserRepository interface {
+type Repository interface {
 	Get(ctx context.Context, id uuid.UUID) (User, error)
 	GetAll(ctx context.Context) (UserList, error)
 	Save(ctx context.Context, user User) error
