@@ -1,17 +1,22 @@
 package application
 
-import "testing"
+import (
+	"reflect"
+	"testing"
 
-func Test_birthdayInts(t *testing.T) {
+	"github.com/abekoh/go-mock-libs/domain/types"
+)
+
+func Test_parseDate(t *testing.T) {
+	validDate, _ := types.NewDate(1990, 12, 31)
+
 	type args struct {
 		s string
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    int
-		want1   int
-		want2   int
+		want    types.Date
 		wantErr bool
 	}{
 		{
@@ -19,9 +24,7 @@ func Test_birthdayInts(t *testing.T) {
 			args: args{
 				s: "1990/12/31",
 			},
-			want:    1990,
-			want1:   12,
-			want2:   31,
+			want:    validDate,
 			wantErr: false,
 		},
 		{
@@ -55,19 +58,13 @@ func Test_birthdayInts(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1, got2, err := dateInts(tt.args.s)
+			got, err := parseDate(tt.args.s)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("birthdayInts() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("parseDate() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if got != tt.want {
-				t.Errorf("birthdayInts() got = %v, want %v", got, tt.want)
-			}
-			if got1 != tt.want1 {
-				t.Errorf("birthdayInts() got1 = %v, want %v", got1, tt.want1)
-			}
-			if got2 != tt.want2 {
-				t.Errorf("birthdayInts() got2 = %v, want %v", got2, tt.want2)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("parseDate() = %v, want %v", got, tt.want)
 			}
 		})
 	}

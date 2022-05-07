@@ -31,15 +31,38 @@ func (r UserAddRequest) NewUser() (user.User, error) {
 	if err != nil {
 		return user.User{}, err
 	}
-	year, month, day, err := dateInts(r.Birthday)
-	if err != nil {
-		return user.User{}, err
-	}
-	birthday, err := types.NewDate(year, month, day)
+	birthday, err := parseDate(r.Birthday)
 	if err != nil {
 		return user.User{}, err
 	}
 	return user.NewUser(name, birthday), nil
+}
+
+type ExamAddRequest struct {
+	UserID string `json:"user_id"`
+	Type   string `json:"type"`
+	Score  int    `json:"score"`
+	Date   string `json:"date"`
+}
+
+func (r ExamAddRequest) NewExam() (examination.Examination, error) {
+	userID, err := uuid.Parse(r.UserID)
+	if err != nil {
+		return examination.Examination{}, err
+	}
+	examType, err := parseExamType(r.Type)
+	if err != nil {
+		return examination.Examination{}, err
+	}
+	date, err := parseDate(r.Date)
+	if err != nil {
+		return examination.Examination{}, err
+	}
+	score, err := examination.NewScore(r.Score)
+	if err != nil {
+		return examination.Examination{}, err
+	}
+	return examination.NewExamination(userID, examType, date, score), nil
 }
 
 type ExamResponse struct {
@@ -52,7 +75,7 @@ type ExamResponse struct {
 func NewExamResponse(exam examination.Examination) ExamResponse {
 	return ExamResponse{
 		ID:    exam.ID().String(),
-		Type:  exam.Type().String(),
+		Type:  examTypeString(exam.Type()),
 		Score: exam.Score().Int(),
 		Date:  dateString(exam.Date()),
 	}
@@ -84,29 +107,49 @@ func NewUserExamResponse(user user.User, examList examination.ExaminationList) U
 	}
 }
 
-func dateInts(s string) (int, int, int, error) {
-	invalidErr := func() (int, int, int, error) {
-		return 0, 0, 0, errors.New("invalid birthday")
-	}
+func parseDate(s string) (types.Date, error) {
+	invalidErr := errors.New("invalid birthday")
 	ss := strings.Split(s, "/")
 	if len(ss) != 3 {
-		return invalidErr()
+		return types.Date{}, invalidErr
 	}
 	year, err := strconv.Atoi(ss[0])
 	if err != nil {
-		return invalidErr()
+		return types.Date{}, invalidErr
 	}
 	month, err := strconv.Atoi(ss[1])
 	if err != nil {
-		return invalidErr()
+		return types.Date{}, invalidErr
 	}
 	day, err := strconv.Atoi(ss[2])
 	if err != nil {
-		return invalidErr()
+		return types.Date{}, invalidErr
 	}
-	return year, month, day, nil
+	return types.NewDate(year, month, day)
 }
 
 func dateString(b types.Date) string {
 	return fmt.Sprintf("%04d/%02d/%02d", b.Year(), b.Month(), b.Day())
+}
+
+func parseExamType(s string) (examination.ExaminationType, error) {
+	switch s {
+	case "English":
+		return examination.ExaminationTypeEnglish, nil
+	case "Math":
+		return examination.ExaminationTypeMath, nil
+	default:
+		return examination.ExaminationTypeEnglish, errors.New("invalid type")
+	}
+}
+
+func examTypeString(t examination.ExaminationType) string {
+	switch t {
+	case examination.ExaminationTypeEnglish:
+		return "English"
+	case examination.ExaminationTypeMath:
+		return "Math"
+	default:
+		return ""
+	}
 }

@@ -52,17 +52,6 @@ const (
 	ExaminationTypeMath
 )
 
-func (t ExaminationType) String() string {
-	switch t {
-	case ExaminationTypeEnglish:
-		return "English"
-	case ExaminationTypeMath:
-		return "Math"
-	default:
-		return ""
-	}
-}
-
 type ExaminationList []Examination
 
 type Score int
