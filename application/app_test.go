@@ -22,7 +22,7 @@ func TestUserAppService_Get(t *testing.T) {
 		repo := userMock.NewMockUserRepository(ctrl)
 		repo.EXPECT().Get(gomock.Any(), id).Return(user.User{}, nil)
 
-		target := NewUserAppService(repo)
+		target := NewUserExamService(repo)
 		target.Get(context.Background(), UserGetRequest{ID: id.String()})
 	})
 
@@ -39,7 +39,7 @@ func TestUserAppService_Get(t *testing.T) {
 		repo := userMock.NewMockUserRepository(ctrl)
 		repo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(user, nil)
 
-		target := NewUserAppService(repo)
+		target := NewUserExamService(repo)
 		res, err := target.Get(context.Background(), UserGetRequest{ID: id.String()})
 
 		assert.Equal(t, UserResponse{
