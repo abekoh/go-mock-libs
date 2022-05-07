@@ -5,7 +5,6 @@ package user
 
 import (
 	context "context"
-	"github.com/abekoh/go-mock-libs/domain/model/user"
 	uuid "github.com/google/uuid"
 	"sync"
 )
@@ -20,10 +19,10 @@ var _ Repository = &RepositoryMock{}
 //
 // 		// make and configure a mocked Repository
 // 		mockedRepository := &RepositoryMock{
-// 			GetFunc: func(ctx context.Context, id uuid.UUID) (user.User, error) {
+// 			GetFunc: func(ctx context.Context, id uuid.UUID) (User, error) {
 // 				panic("mock out the Get method")
 // 			},
-// 			SaveFunc: func(ctx context.Context, userMoqParam user.User) error {
+// 			SaveFunc: func(ctx context.Context, user User) error {
 // 				panic("mock out the Save method")
 // 			},
 // 		}
@@ -34,10 +33,10 @@ var _ Repository = &RepositoryMock{}
 // 	}
 type RepositoryMock struct {
 	// GetFunc mocks the Get method.
-	GetFunc func(ctx context.Context, id uuid.UUID) (user.User, error)
+	GetFunc func(ctx context.Context, id uuid.UUID) (User, error)
 
 	// SaveFunc mocks the Save method.
-	SaveFunc func(ctx context.Context, userMoqParam user.User) error
+	SaveFunc func(ctx context.Context, user User) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -52,8 +51,8 @@ type RepositoryMock struct {
 		Save []struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
-			// UserMoqParam is the userMoqParam argument value.
-			UserMoqParam user.User
+			// User is the user argument value.
+			User User
 		}
 	}
 	lockGet  sync.RWMutex
@@ -61,7 +60,7 @@ type RepositoryMock struct {
 }
 
 // Get calls GetFunc.
-func (mock *RepositoryMock) Get(ctx context.Context, id uuid.UUID) (user.User, error) {
+func (mock *RepositoryMock) Get(ctx context.Context, id uuid.UUID) (User, error) {
 	callInfo := struct {
 		Ctx context.Context
 		ID  uuid.UUID
@@ -74,7 +73,7 @@ func (mock *RepositoryMock) Get(ctx context.Context, id uuid.UUID) (user.User, e
 	mock.lockGet.Unlock()
 	if mock.GetFunc == nil {
 		var (
-			userOut user.User
+			userOut User
 			errOut  error
 		)
 		return userOut, errOut
@@ -100,13 +99,13 @@ func (mock *RepositoryMock) GetCalls() []struct {
 }
 
 // Save calls SaveFunc.
-func (mock *RepositoryMock) Save(ctx context.Context, userMoqParam user.User) error {
+func (mock *RepositoryMock) Save(ctx context.Context, user User) error {
 	callInfo := struct {
-		Ctx          context.Context
-		UserMoqParam user.User
+		Ctx  context.Context
+		User User
 	}{
-		Ctx:          ctx,
-		UserMoqParam: userMoqParam,
+		Ctx:  ctx,
+		User: user,
 	}
 	mock.lockSave.Lock()
 	mock.calls.Save = append(mock.calls.Save, callInfo)
@@ -117,19 +116,19 @@ func (mock *RepositoryMock) Save(ctx context.Context, userMoqParam user.User) er
 		)
 		return errOut
 	}
-	return mock.SaveFunc(ctx, userMoqParam)
+	return mock.SaveFunc(ctx, user)
 }
 
 // SaveCalls gets all the calls that were made to Save.
 // Check the length with:
 //     len(mockedRepository.SaveCalls())
 func (mock *RepositoryMock) SaveCalls() []struct {
-	Ctx          context.Context
-	UserMoqParam user.User
+	Ctx  context.Context
+	User User
 } {
 	var calls []struct {
-		Ctx          context.Context
-		UserMoqParam user.User
+		Ctx  context.Context
+		User User
 	}
 	mock.lockSave.RLock()
 	calls = mock.calls.Save

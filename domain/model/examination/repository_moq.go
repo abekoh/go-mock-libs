@@ -5,7 +5,6 @@ package examination
 
 import (
 	context "context"
-	"github.com/abekoh/go-mock-libs/domain/model/examination"
 	uuid "github.com/google/uuid"
 	"sync"
 )
@@ -20,10 +19,10 @@ var _ Repository = &RepositoryMock{}
 //
 // 		// make and configure a mocked Repository
 // 		mockedRepository := &RepositoryMock{
-// 			GetAllFunc: func(ctx context.Context, userId uuid.UUID) (examination.ExaminationList, error) {
+// 			GetAllFunc: func(ctx context.Context, userId uuid.UUID) (ExaminationList, error) {
 // 				panic("mock out the GetAll method")
 // 			},
-// 			SaveFunc: func(ctx context.Context, exam examination.Examination) error {
+// 			SaveFunc: func(ctx context.Context, exam Examination) error {
 // 				panic("mock out the Save method")
 // 			},
 // 		}
@@ -34,10 +33,10 @@ var _ Repository = &RepositoryMock{}
 // 	}
 type RepositoryMock struct {
 	// GetAllFunc mocks the GetAll method.
-	GetAllFunc func(ctx context.Context, userId uuid.UUID) (examination.ExaminationList, error)
+	GetAllFunc func(ctx context.Context, userId uuid.UUID) (ExaminationList, error)
 
 	// SaveFunc mocks the Save method.
-	SaveFunc func(ctx context.Context, exam examination.Examination) error
+	SaveFunc func(ctx context.Context, exam Examination) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -53,7 +52,7 @@ type RepositoryMock struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 			// Exam is the exam argument value.
-			Exam examination.Examination
+			Exam Examination
 		}
 	}
 	lockGetAll sync.RWMutex
@@ -61,7 +60,7 @@ type RepositoryMock struct {
 }
 
 // GetAll calls GetAllFunc.
-func (mock *RepositoryMock) GetAll(ctx context.Context, userId uuid.UUID) (examination.ExaminationList, error) {
+func (mock *RepositoryMock) GetAll(ctx context.Context, userId uuid.UUID) (ExaminationList, error) {
 	callInfo := struct {
 		Ctx    context.Context
 		UserId uuid.UUID
@@ -74,7 +73,7 @@ func (mock *RepositoryMock) GetAll(ctx context.Context, userId uuid.UUID) (exami
 	mock.lockGetAll.Unlock()
 	if mock.GetAllFunc == nil {
 		var (
-			examinationListOut examination.ExaminationList
+			examinationListOut ExaminationList
 			errOut             error
 		)
 		return examinationListOut, errOut
@@ -100,10 +99,10 @@ func (mock *RepositoryMock) GetAllCalls() []struct {
 }
 
 // Save calls SaveFunc.
-func (mock *RepositoryMock) Save(ctx context.Context, exam examination.Examination) error {
+func (mock *RepositoryMock) Save(ctx context.Context, exam Examination) error {
 	callInfo := struct {
 		Ctx  context.Context
-		Exam examination.Examination
+		Exam Examination
 	}{
 		Ctx:  ctx,
 		Exam: exam,
@@ -125,11 +124,11 @@ func (mock *RepositoryMock) Save(ctx context.Context, exam examination.Examinati
 //     len(mockedRepository.SaveCalls())
 func (mock *RepositoryMock) SaveCalls() []struct {
 	Ctx  context.Context
-	Exam examination.Examination
+	Exam Examination
 } {
 	var calls []struct {
 		Ctx  context.Context
-		Exam examination.Examination
+		Exam Examination
 	}
 	mock.lockSave.RLock()
 	calls = mock.calls.Save
