@@ -31,3 +31,5 @@ const (
 	ExaminationTypeEnglish ExaminationType = iota
 	ExaminationTypeMath
 )
+
+type ExaminationList []Examination

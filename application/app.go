@@ -3,15 +3,17 @@ package application
 import (
 	"context"
 
+	"github.com/abekoh/go-mock-libs/domain/model/examination"
 	"github.com/abekoh/go-mock-libs/domain/model/user"
 )
 
 type UserExamService struct {
 	userRepository user.Repository
+	examRepository examination.Repository
 }
 
-func NewUserExamService(userRepository user.Repository) *UserExamService {
-	return &UserExamService{userRepository: userRepository}
+func NewUserExamService(userRepository user.Repository, examRepository examination.Repository) *UserExamService {
+	return &UserExamService{userRepository: userRepository, examRepository: examRepository}
 }
 
 func (s UserExamService) Get(ctx context.Context, req UserExamGetRequest) (UserExamResponse, error) {
