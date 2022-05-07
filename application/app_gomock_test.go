@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUserExamAppService_Get(t *testing.T) {
+func TestUserExamAppService_Get_GoMock(t *testing.T) {
 	testUser := testUser()
 	testUserID := testUser.ID()
 	exams := testExams(testUserID)
