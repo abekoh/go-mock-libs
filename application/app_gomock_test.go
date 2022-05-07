@@ -13,7 +13,6 @@ import (
 func TestUserExamAppService_Get(t *testing.T) {
 	user := testUser()
 	userID := user.ID()
-
 	exams := testExams(userID)
 
 	t.Run("指定したIDでユーザ取得が実行される", func(t *testing.T) {
