@@ -4,13 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/abekoh/go-mock-libs/domain/model/examination"
-	"github.com/abekoh/go-mock-libs/domain/model/user"
-	"github.com/abekoh/go-mock-libs/domain/types"
 	examMock "github.com/abekoh/go-mock-libs/gomock/domain/model/examination"
 	userMock "github.com/abekoh/go-mock-libs/gomock/domain/model/user"
 	"github.com/golang/mock/gomock"
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
