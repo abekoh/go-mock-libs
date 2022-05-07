@@ -13,31 +13,31 @@ import (
 	uuid "github.com/google/uuid"
 )
 
-// MockUserRepository is a mock of UserRepository interface.
-type MockUserRepository struct {
+// MockRepository is a mock of Repository interface.
+type MockRepository struct {
 	ctrl     *gomock.Controller
-	recorder *MockUserRepositoryMockRecorder
+	recorder *MockRepositoryMockRecorder
 }
 
-// MockUserRepositoryMockRecorder is the mock recorder for MockUserRepository.
-type MockUserRepositoryMockRecorder struct {
-	mock *MockUserRepository
+// MockRepositoryMockRecorder is the mock recorder for MockRepository.
+type MockRepositoryMockRecorder struct {
+	mock *MockRepository
 }
 
-// NewMockUserRepository creates a new mock instance.
-func NewMockUserRepository(ctrl *gomock.Controller) *MockUserRepository {
-	mock := &MockUserRepository{ctrl: ctrl}
-	mock.recorder = &MockUserRepositoryMockRecorder{mock}
+// NewMockRepository creates a new mock instance.
+func NewMockRepository(ctrl *gomock.Controller) *MockRepository {
+	mock := &MockRepository{ctrl: ctrl}
+	mock.recorder = &MockRepositoryMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
+func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 	return m.recorder
 }
 
 // Get mocks base method.
-func (m *MockUserRepository) Get(ctx context.Context, id uuid.UUID) (user.User, error) {
+func (m *MockRepository) Get(ctx context.Context, id uuid.UUID) (user.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", ctx, id)
 	ret0, _ := ret[0].(user.User)
@@ -46,28 +46,13 @@ func (m *MockUserRepository) Get(ctx context.Context, id uuid.UUID) (user.User, 
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockUserRepositoryMockRecorder) Get(ctx, id interface{}) *gomock.Call {
+func (mr *MockRepositoryMockRecorder) Get(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockUserRepository)(nil).Get), ctx, id)
-}
-
-// GetAll mocks base method.
-func (m *MockUserRepository) GetAll(ctx context.Context) (user.UserList, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAll", ctx)
-	ret0, _ := ret[0].(user.UserList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetAll indicates an expected call of GetAll.
-func (mr *MockUserRepositoryMockRecorder) GetAll(ctx interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockUserRepository)(nil).GetAll), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRepository)(nil).Get), ctx, id)
 }
 
 // Save mocks base method.
-func (m *MockUserRepository) Save(ctx context.Context, user user.User) error {
+func (m *MockRepository) Save(ctx context.Context, user user.User) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Save", ctx, user)
 	ret0, _ := ret[0].(error)
@@ -75,7 +60,7 @@ func (m *MockUserRepository) Save(ctx context.Context, user user.User) error {
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockUserRepositoryMockRecorder) Save(ctx, user interface{}) *gomock.Call {
+func (mr *MockRepositoryMockRecorder) Save(ctx, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockUserRepository)(nil).Save), ctx, user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRepository)(nil).Save), ctx, user)
 }

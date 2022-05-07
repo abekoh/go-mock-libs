@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/abekoh/go-mock-libs/domain/model/examination"
 	"github.com/abekoh/go-mock-libs/domain/model/user"
 	"github.com/abekoh/go-mock-libs/domain/types"
 	"github.com/google/uuid"
@@ -41,17 +42,45 @@ func (r UserAddRequest) NewUser() (user.User, error) {
 	return user.NewUser(name, birthday), nil
 }
 
-type UserExamResponse struct {
-	ID       string `json:"id"`
-	FullName string `json:"full_name"`
-	Birthday string `json:"birthday"`
+type ExamResponse struct {
+	ID    string `json:"id"`
+	Type  string `json:"type"`
+	Score int    `json:"score"`
+	Date  string `json:"date"`
 }
 
-func NewUserExamResponse(user user.User) UserExamResponse {
+func NewExamResponse(exam examination.Examination) ExamResponse {
+	return ExamResponse{
+		ID:    exam.ID().String(),
+		Type:  exam.Type().String(),
+		Score: exam.Score().Int(),
+		Date:  dateString(exam.Date()),
+	}
+}
+
+type ExamResponseList []ExamResponse
+
+func NewExamListReponse(examList examination.ExaminationList) ExamResponseList {
+	result := make(ExamResponseList, 0, len(examList))
+	for _, exam := range examList {
+		result = append(result, NewExamResponse(exam))
+	}
+	return result
+}
+
+type UserExamResponse struct {
+	ID       string           `json:"id"`
+	FullName string           `json:"full_name"`
+	Birthday string           `json:"birthday"`
+	Exams    ExamResponseList `json:"exams"`
+}
+
+func NewUserExamResponse(user user.User, examList examination.ExaminationList) UserExamResponse {
 	return UserExamResponse{
 		ID:       user.ID().String(),
 		FullName: user.Name().FullName(),
 		Birthday: dateString(user.Birthday()),
+		Exams:    NewExamListReponse(examList),
 	}
 }
 

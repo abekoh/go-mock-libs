@@ -25,16 +25,20 @@ func (s UserExamService) Get(ctx context.Context, req UserExamGetRequest) (UserE
 	if err != nil {
 		return UserExamResponse{}, err
 	}
-	return NewUserExamResponse(user), nil
-}
-
-func (s UserExamService) AddUser(ctx context.Context, req UserAddRequest) (UserExamResponse, error) {
-	newUser, err := req.NewUser()
+	exams, err := s.examRepository.GetAll(ctx, user.ID())
 	if err != nil {
 		return UserExamResponse{}, err
 	}
-	if err := s.userRepository.Save(ctx, newUser); err != nil {
-		return UserExamResponse{}, err
+	return NewUserExamResponse(user, exams), nil
+}
+
+func (s UserExamService) AddUser(ctx context.Context, req UserAddRequest) error {
+	newUser, err := req.NewUser()
+	if err != nil {
+		return err
 	}
-	return NewUserExamResponse(newUser), nil
+	if err := s.userRepository.Save(ctx, newUser); err != nil {
+		return err
+	}
+	return nil
 }
