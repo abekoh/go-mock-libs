@@ -10,58 +10,53 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func presetMocks() (*user.RepositoryMock, *examination.RepositoryMock) {
+	return &user.RepositoryMock{}, &examination.RepositoryMock{}
+}
+
 func TestUserExamAppService_Get_Moq(t *testing.T) {
 	usr := testUser()
 	usrID := usr.ID()
 	exams := testExams(usrID)
 
 	t.Run("指定したIDでユーザ取得が実行される", func(t *testing.T) {
-		userRepo := &user.RepositoryMock{
-			GetFunc: func(ctx context.Context, id uuid.UUID) (user.User, error) {
-				if id != usrID {
-					t.Errorf("want = %v, got = %v", usrID, id)
-				}
-				return usr, nil
-			},
+		userRepo, examRepo := presetMocks()
+		userRepo.GetFunc = func(ctx context.Context, id uuid.UUID) (user.User, error) {
+			if id != usrID {
+				t.Errorf("want = %v, got = %v", usrID, id)
+			}
+			return usr, nil
 		}
-		examRepo := &examination.RepositoryMock{}
 
 		target := NewUserExamService(userRepo, examRepo)
 		target.Get(context.Background(), UserExamGetRequest{ID: usrID.String()})
+		assert.Equal(t, 1, len(userRepo.GetCalls()))
 	})
 
 	t.Run("指定したIDで試験取得が実行される", func(t *testing.T) {
-		userRepo := &user.RepositoryMock{
-			GetFunc: func(ctx context.Context, id uuid.UUID) (user.User, error) {
-				return usr, nil
-			},
+		userRepo, examRepo := presetMocks()
+		userRepo.GetFunc = func(ctx context.Context, id uuid.UUID) (user.User, error) {
+			return usr, nil
 		}
-		examRepo := &examination.RepositoryMock{
-			GetAllFunc: func(ctx context.Context, id uuid.UUID) (examination.ExaminationList, error) {
-				if id != usrID {
-					t.Errorf("want = %v, got = %v", usrID, id)
-				}
-				return exams, nil
-			},
+		examRepo.GetAllFunc = func(ctx context.Context, id uuid.UUID) (examination.ExaminationList, error) {
+			if id != usrID {
+				t.Errorf("want = %v, got = %v", usrID, id)
+			}
+			return exams, nil
 		}
 
 		target := NewUserExamService(userRepo, examRepo)
 		target.Get(context.Background(), UserExamGetRequest{ID: usrID.String()})
+		assert.Equal(t, 1, len(examRepo.GetAllCalls()))
 	})
 
 	t.Run("レスポンスが正しくマッピングされている", func(t *testing.T) {
-		userRepo := &user.RepositoryMock{
-			GetFunc: func(ctx context.Context, id uuid.UUID) (user.User, error) {
-				return usr, nil
-			},
+		userRepo, examRepo := presetMocks()
+		userRepo.GetFunc = func(ctx context.Context, id uuid.UUID) (user.User, error) {
+			return usr, nil
 		}
-		examRepo := &examination.RepositoryMock{
-			GetAllFunc: func(ctx context.Context, id uuid.UUID) (examination.ExaminationList, error) {
-				if id != usrID {
-					t.Errorf("want = %v, got = %v", usrID, id)
-				}
-				return exams, nil
-			},
+		examRepo.GetAllFunc = func(ctx context.Context, id uuid.UUID) (examination.ExaminationList, error) {
+			return exams, nil
 		}
 
 		target := NewUserExamService(userRepo, examRepo)
