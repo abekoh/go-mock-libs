@@ -4,57 +4,57 @@ import (
 	"context"
 	"testing"
 
-	examMock "github.com/abekoh/go-mock-libs/gomock/domain/model/examination"
-	userMock "github.com/abekoh/go-mock-libs/gomock/domain/model/user"
+	"github.com/abekoh/go-mock-libs/domain/model/examination"
+	"github.com/abekoh/go-mock-libs/domain/model/user"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestUserExamAppService_Get(t *testing.T) {
-	user := testUser()
-	userID := user.ID()
-	exams := testExams(userID)
+	testUser := testUser()
+	testUserID := testUser.ID()
+	exams := testExams(testUserID)
 
 	t.Run("指定したIDでユーザ取得が実行される", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		userRepo := userMock.NewMockRepository(ctrl)
-		userRepo.EXPECT().Get(gomock.Any(), userID).Return(user, nil)
-		examRepo := examMock.NewMockRepository(ctrl)
+		userRepo := user.NewMockRepository(ctrl)
+		userRepo.EXPECT().Get(gomock.Any(), testUserID).Return(testUser, nil)
+		examRepo := examination.NewMockRepository(ctrl)
 		examRepo.EXPECT().GetAll(gomock.Any(), gomock.Any()).Return(exams, nil).AnyTimes()
 
 		target := NewUserExamService(userRepo, examRepo)
-		target.Get(context.Background(), UserExamGetRequest{ID: userID.String()})
+		target.Get(context.Background(), UserExamGetRequest{ID: testUserID.String()})
 	})
 
 	t.Run("指定したIDで試験取得が実行される", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		userRepo := userMock.NewMockRepository(ctrl)
-		userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(user, nil).AnyTimes()
-		examRepo := examMock.NewMockRepository(ctrl)
-		examRepo.EXPECT().GetAll(gomock.Any(), userID).Return(exams, nil)
+		userRepo := user.NewMockRepository(ctrl)
+		userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(testUser, nil).AnyTimes()
+		examRepo := examination.NewMockRepository(ctrl)
+		examRepo.EXPECT().GetAll(gomock.Any(), testUserID).Return(exams, nil)
 
 		target := NewUserExamService(userRepo, examRepo)
-		target.Get(context.Background(), UserExamGetRequest{ID: userID.String()})
+		target.Get(context.Background(), UserExamGetRequest{ID: testUserID.String()})
 	})
 
 	t.Run("レスポンスが正しくマッピングされている", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
-		userRepo := userMock.NewMockRepository(ctrl)
-		userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(user, nil).AnyTimes()
-		examRepo := examMock.NewMockRepository(ctrl)
+		userRepo := user.NewMockRepository(ctrl)
+		userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(testUser, nil).AnyTimes()
+		examRepo := examination.NewMockRepository(ctrl)
 		examRepo.EXPECT().GetAll(gomock.Any(), gomock.Any()).Return(exams, nil).AnyTimes()
 
 		target := NewUserExamService(userRepo, examRepo)
-		res, err := target.Get(context.Background(), UserExamGetRequest{ID: userID.String()})
+		res, err := target.Get(context.Background(), UserExamGetRequest{ID: testUserID.String()})
 
 		assert.Equal(t, UserExamResponse{
-			ID:       userID.String(),
+			ID:       testUserID.String(),
 			FullName: "Taro Yamada",
 			Birthday: "1990/12/31",
 			Exams: ExamResponseList{
