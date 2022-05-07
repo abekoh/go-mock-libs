@@ -53,3 +53,9 @@ func (b Birthday) Month() int {
 func (b Birthday) Day() int {
 	return b.birthdayTime.Day()
 }
+
+type Point int
+
+func NewPoint() Point {
+	return Point(0)
+}
