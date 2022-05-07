@@ -47,7 +47,7 @@ type UserExamResponse struct {
 	Birthday string `json:"birthday"`
 }
 
-func NewUserResponse(user user.User) UserExamResponse {
+func NewUserExamResponse(user user.User) UserExamResponse {
 	return UserExamResponse{
 		ID:       user.ID().String(),
 		FullName: user.Name().FullName(),
@@ -60,7 +60,7 @@ type UserExamListResponse []UserExamResponse
 func NewUserExamListResponse(users user.UserList) UserExamListResponse {
 	resp := make(UserExamListResponse, 0, len(users))
 	for _, u := range users {
-		resp = append(resp, NewUserResponse(u))
+		resp = append(resp, NewUserExamResponse(u))
 	}
 	return resp
 }
