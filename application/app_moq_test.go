@@ -24,11 +24,7 @@ func TestUserExamAppService_Get_Moq(t *testing.T) {
 				return usr, nil
 			},
 		}
-		examRepo := &examination.RepositoryMock{
-			GetAllFunc: func(ctx context.Context, id uuid.UUID) (examination.ExaminationList, error) {
-				return exams, nil
-			},
-		}
+		examRepo := &examination.RepositoryMock{}
 
 		target := NewUserExamService(userRepo, examRepo)
 		target.Get(context.Background(), UserExamGetRequest{ID: usrID.String()})
