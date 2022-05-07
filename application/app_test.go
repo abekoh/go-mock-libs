@@ -33,7 +33,7 @@ func TestUserAppService_Get(t *testing.T) {
 		id := uuid.New()
 
 		name, _ := user.NewName("Kotaro", "Abe")
-		birthday, _ := types.NewBirthday(1990, 12, 31)
+		birthday, _ := types.NewDate(1990, 12, 31)
 		user := user.NewUserWithID(id, name, birthday)
 
 		repo := userMock.NewMockUserRepository(ctrl)

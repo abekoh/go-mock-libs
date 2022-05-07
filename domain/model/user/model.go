@@ -31,10 +31,10 @@ func (n Name) String() string {
 type User struct {
 	id       uuid.UUID
 	name     Name
-	birthday types.Birthday
+	birthday types.Date
 }
 
-func NewUser(name Name, birthday types.Birthday) User {
+func NewUser(name Name, birthday types.Date) User {
 	return User{
 		id:       uuid.New(),
 		name:     name,
@@ -42,7 +42,7 @@ func NewUser(name Name, birthday types.Birthday) User {
 	}
 }
 
-func NewUserWithID(id uuid.UUID, name Name, birthday types.Birthday) User {
+func NewUserWithID(id uuid.UUID, name Name, birthday types.Date) User {
 	return User{
 		id:       id,
 		name:     name,
@@ -58,7 +58,7 @@ func (u User) Name() Name {
 	return u.name
 }
 
-func (u User) Birthday() types.Birthday {
+func (u User) Birthday() types.Date {
 	return u.birthday
 }
 

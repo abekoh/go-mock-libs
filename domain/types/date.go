@@ -6,30 +6,30 @@ import (
 	"time"
 )
 
-type Birthday struct {
+type Date struct {
 	birthdayTime time.Time
 }
 
-func NewBirthday(year, month, day int) (Birthday, error) {
+func NewDate(year, month, day int) (Date, error) {
 	if year < 0 {
-		return Birthday{}, errors.New("invalid year")
+		return Date{}, errors.New("invalid year")
 	}
 	t := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.Local)
 	if t.Year() != year || int(t.Month()) != month || t.Day() != day {
-		return Birthday{}, errors.New("invalid birthday")
+		return Date{}, errors.New("invalid birthday")
 	}
 	fmt.Println(t.Year())
-	return Birthday{birthdayTime: t}, nil
+	return Date{birthdayTime: t}, nil
 }
 
-func (b Birthday) Year() int {
+func (b Date) Year() int {
 	return b.birthdayTime.Year()
 }
 
-func (b Birthday) Month() int {
+func (b Date) Month() int {
 	return int(b.birthdayTime.Month())
 }
 
-func (b Birthday) Day() int {
+func (b Date) Day() int {
 	return b.birthdayTime.Day()
 }

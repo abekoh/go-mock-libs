@@ -9,14 +9,14 @@ type Examination struct {
 	id       uuid.UUID
 	userId   uuid.UUID
 	examType ExaminationType
-	examDate types.Birthday
+	examDate types.Date
 }
 
-func NewExamination(userId uuid.UUID, examType ExaminationType, examDate types.Birthday) Examination {
+func NewExamination(userId uuid.UUID, examType ExaminationType, examDate types.Date) Examination {
 	return NewExaminationWithID(uuid.New(), userId, examType, examDate)
 }
 
-func NewExaminationWithID(id, userId uuid.UUID, examType ExaminationType, examDate types.Birthday) Examination {
+func NewExaminationWithID(id, userId uuid.UUID, examType ExaminationType, examDate types.Date) Examination {
 	return Examination{
 		id:       id,
 		userId:   userId,

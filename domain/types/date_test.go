@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestNewBirthday(t *testing.T) {
+func TestNewDate(t *testing.T) {
 	type args struct {
 		year  int
 		month int
@@ -15,7 +15,7 @@ func TestNewBirthday(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    Birthday
+		want    Date
 		wantErr bool
 	}{
 		{
@@ -25,7 +25,7 @@ func TestNewBirthday(t *testing.T) {
 				month: 12,
 				day:   31,
 			},
-			want: Birthday{
+			want: Date{
 				birthdayTime: time.Date(1990, 12, 31, 0, 0, 0, 0, time.Local),
 			},
 			wantErr: false,
@@ -60,7 +60,7 @@ func TestNewBirthday(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewBirthday(tt.args.year, tt.args.month, tt.args.day)
+			got, err := NewDate(tt.args.year, tt.args.month, tt.args.day)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewBirthday() error = %v, wantErr %v", err, tt.wantErr)
 				return
