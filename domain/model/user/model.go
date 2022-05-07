@@ -1,8 +1,6 @@
-//go:generate mockgen -source=$GOFILE -package=$GOPACKAGE -destination=../../../gomock/domain/model/$GOPACKAGE/$GOFILE
 package user
 
 import (
-	"context"
 	"errors"
 	"fmt"
 
@@ -68,10 +66,4 @@ type UserList []User
 
 func NewUserList(users ...User) UserList {
 	return UserList(users)
-}
-
-type UserRepository interface {
-	Get(ctx context.Context, id uuid.UUID) (User, error)
-	GetAll(ctx context.Context) (UserList, error)
-	Save(ctx context.Context, user User) error
 }
