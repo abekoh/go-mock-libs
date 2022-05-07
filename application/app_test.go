@@ -16,7 +16,7 @@ import (
 
 func testUser() user.User {
 	userID := uuid.New()
-	name, _ := user.NewName("Kotaro", "Abe")
+	name, _ := user.NewName("Taro", "Yamada")
 	birthday, _ := types.NewDate(1990, 12, 31)
 	return user.NewUserWithID(userID, name, birthday)
 }
@@ -77,7 +77,7 @@ func TestUserExamAppService_Get(t *testing.T) {
 
 		assert.Equal(t, UserExamResponse{
 			ID:       userID.String(),
-			FullName: "Kotaro Abe",
+			FullName: "Taro Yamada",
 			Birthday: "1990/12/31",
 			Exams: ExamResponseList{
 				ExamResponse{

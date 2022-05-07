@@ -19,19 +19,19 @@ func TestNewName(t *testing.T) {
 		{
 			name: "valid 1",
 			args: args{
-				first: "Kotaro",
-				last:  "Abe",
+				first: "Taro",
+				last:  "Yamada",
 			},
 			want: Name{
-				first: "Kotaro",
-				last:  "Abe",
+				first: "Taro",
+				last:  "Yamada",
 			},
 			wantErr: false,
 		},
 		{
 			name: "invalid 1",
 			args: args{
-				first: "Kotaro",
+				first: "Taro",
 				last:  "",
 			},
 			wantErr: true,
@@ -40,7 +40,7 @@ func TestNewName(t *testing.T) {
 			name: "invalid 2",
 			args: args{
 				first: "",
-				last:  "Abe",
+				last:  "Yamada",
 			},
 			wantErr: true,
 		},
@@ -72,10 +72,10 @@ func TestName_FullName(t *testing.T) {
 		{
 			name: "check mapping",
 			fields: fields{
-				first: "Kotaro",
-				last:  "Abe",
+				first: "Taro",
+				last:  "Yamada",
 			},
-			want: "Kotaro Abe",
+			want: "Taro Yamada",
 		},
 	}
 	for _, tt := range tests {
